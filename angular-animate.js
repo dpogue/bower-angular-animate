@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.2.17-build.161+sha.32aa491
+ * @license AngularJS v1.2.16
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -1397,7 +1397,11 @@ angular.module('ngAnimate', ['ng'])
         // timeout done method.
         function onEnd(cancelled) {
           element.off(css3AnimationEvents, onAnimationProgress);
-          element.removeClass(activeClassName);
+
+          if (animationEvent != 'leave') {
+            element.removeClass(activeClassName);
+          }
+
           animateClose(element, className);
           var node = extractElementNode(element);
           for (var i in appliedStyles) {
@@ -1484,7 +1488,10 @@ angular.module('ngAnimate', ['ng'])
       }
 
       function animateClose(element, className) {
-        element.removeClass(className);
+        if (className != 'ng-leave') {
+          element.removeClass(className);
+        }
+
         var data = element.data(NG_ANIMATE_CSS_DATA_KEY);
         if(data) {
           if(data.running) {
